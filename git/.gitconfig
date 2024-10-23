@@ -105,6 +105,7 @@
 
 [push]
     default = simple
+    autoSetupRemote = true
 
 [credential]
     helper = manager
