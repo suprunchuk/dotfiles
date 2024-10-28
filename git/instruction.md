@@ -5,11 +5,11 @@
 1. Ensure you're on the latest main:
 
 ```bash
-git co 
+git co main 
 ```
 
 ```bash
-main git p
+git p
 ```
 
 2. Create and switch to new dev branch:
