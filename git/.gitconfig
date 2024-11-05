@@ -47,6 +47,8 @@
     dm = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
     # Undo Commit; leaves files. Only for non-public commits
     uncommit = reset --soft HEAD^
+    # Fetch all remotes and remove stale references
+    fa = fetch --all --prune
 
 [apply]
     # Detect whitespace errors when applying a patch
