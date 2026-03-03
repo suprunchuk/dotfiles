@@ -111,3 +111,7 @@
 
 [credential]
     helper = manager
+[gui]
+	encoding = utf-8
+	fontui = -family Roboto -size 9 -weight normal -slant roman -underline 0 -overstrike 0
+	fontdiff = -family \"JetBrains Mono\" -size 10 -weight normal -slant roman -underline 0 -overstrike 0
