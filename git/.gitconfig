@@ -6,22 +6,23 @@
 	
 [alias]
     # List current aliases
-    aliases = "!git config --get-regexp ^alias\\. | sed -e s/^alias\\.// -e s/\\ /\\ =\\ / | grep -v ^'alias '"
-    # View abbreviated SHA, description, and history graph of the latest 20 commits
-    l = log --pretty=oneline -n 20 --graph --abbrev-commit
+    ala = "!git config --get-regexp '^alias\\.' | sed -e 's/^alias\\.//' -e 's/ / = /'"
+    # Show full log graph for all branches (compact)
+    l = log --graph --decorate --oneline --all
+    # Show a nicer, information-dense log (hash, date, author, refs, subject)
+    lg = log --graph --all --decorate --date=short --pretty=format:'%C(yellow)%h%Creset %Cgreen%ad%Creset %C(cyan)%an%Creset %C(auto)%d%Creset %s'
     # View the current working tree status using the short format
-    s = status -s
-    st = status
+    s = status --short --branch
     # Show the diff between the latest commit and the current state
     d = !"git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat"
-    # `git di $number` shows the diff between the state `$number` revisions ago and the current state
-    di = !"d() { git diff --patch-with-stat HEAD~$1; }; git diff-index --quiet HEAD -- || clear; d"
     # Pull in remote changes for the current repository and all its submodules
-    p = !"git pull; git submodule foreach git pull origin master"
+    p = !"git pull; git submodule foreach git pull origin main"
     # Clone a repository including all submodules
     c = clone --recursive
     # Commit all changes
     ca = !git add -A && git commit -av
+    # Commit only staged changes (do not auto-add)
+    cs = commit -v
     # Switch to a branch, but don't create it
     co = checkout
     # Switch to a branch, creating it if necessary
@@ -34,20 +35,18 @@
     credit = "!f() { git commit --amend --author \"$1 <$2>\" -C HEAD; }; f"
     # Interactive rebase with the given number of latest commits
     reb = "!r() { git rebase -i HEAD~$1; }; r"
-    # Find branches containing commit
-    fb = "!f() { git branch -a --contains $1; }; f"
-    # Find tags containing commit
-    ft = "!f() { git describe --always --contains $1; }; f"
-    # Find commits by source code
-    fc = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short -S$1; }; f"
-    # Find commits by commit message
-    fm = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short --grep=$1; }; f"
     # Remove branches that have already been merged with master
     dm = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
     # Undo last commit but keep changed files in stage
     uncommit = reset --soft HEAD~1
+    # Undo last commit but keep changes unstaged (mixed reset)
+    undo = reset --mixed HEAD~1
     # Fetch all remotes and remove stale references
     fa = fetch --all --prune
+    # Quick save work-in-progress (WIP) commit (message optional)
+    wip = "!f(){ msg=${1:-WIP}; git add -A && git commit -m \"$msg\"; }; f"
+    # Force push safely (uses lease)
+    pf = push --force-with-lease
 
 [apply]
     # Detect whitespace errors when applying a patch
